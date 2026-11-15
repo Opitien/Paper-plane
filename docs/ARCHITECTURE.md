@@ -416,6 +416,7 @@ Development:
 | `vite`, `@vitejs/plugin-react` | Build and dev server |
 | `@types/react`, `@types/react-dom`, `@types/three` | Types |
 | `vitest` | Simulation tests |
+| `vite-node` | Runs `scripts/tune.ts` (`npm run tune`); vitest 4 no longer bundles it |
 | `eslint`, `typescript-eslint`, `eslint-plugin-react-hooks` | Lint |
 | `leva` (optional, M2 only) | Live tuning sliders for constants during physics work; excluded from production via a dev flag |
 

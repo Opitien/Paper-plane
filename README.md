@@ -4,7 +4,7 @@
 
 You fly a paper dart through an open sky from a camera just behind it. You only control pitch and bank, but the plane obeys a small flight model: pull up too hard and it stalls, dive too long and it overspeeds, bank and it turns but sinks. The wind drifts, gusts and eventually storms. Your score is the distance you cover before you hit the ground.
 
-Play it locally with the steps under [Getting started](#getting-started), or put it online with the notes under [Deployment](#deployment).
+The source is at [github.com/Opitien/Paper-plane](https://github.com/Opitien/Paper-plane). It publishes to [opitien.github.io/Paper-plane](https://opitien.github.io/Paper-plane/) through GitHub Actions and deploys to Vercel with one click; see [Deployment](#deployment). Or run it locally with the steps under [Getting started](#getting-started).
 
 > **Good to know.** Everything runs in your browser. Your best flight and settings are saved in your browser's local storage only, so they do not follow you between devices. Sound starts after your first click or key press, because browsers require that.
 
@@ -83,7 +83,7 @@ flowchart LR
 1. **Every frame**, the driver adds the elapsed time to an accumulator and runs the simulation in fixed 1/120 s steps. The renderer interpolates between the last two states, so the flight looks the same at 30, 60 or 144 frames per second.
 2. **The flight model** works out the plane's angle of attack from its pitch and the air flowing past it, turns that into lift and drag, and adds gravity and a small forward breeze. Pitch and roll change through moments, never directly, so nothing snaps. Lift collapses past the stall angle; bank tilts the lift so turns cost height.
 3. **The wind** is three slowly drifting channels (head or tail, up or down, cross) plus timed gusts and a turbulence level, all scaled by how far you have flown.
-4. **The game store** holds the phase and your best score. The frame driver only steps the simulation while playing, flies the plane by itself behind the menu, and turns a crash into the score card after a short beat.
+4. **The game store** holds the phase and your best score. The frame driver plays the throw, steps the simulation only while flying, and turns a crash into the score card after a short beat.
 5. **The scene** keeps the plane at the origin and moves the world past it. Clouds, wind streaks and obstacles live in fixed pools and are recycled ahead of the plane. One palette table drives the sky dome, fog, lights and cloud tint, so the stages blend without seams.
 6. **Terrain and obstacles** are part of the simulation: one height function shapes the launch hill and decides ground crashes, and an obstacle field spawns balloons, turbines and rings ahead of you and checks collisions against simple shapes. The renderer only draws what the simulation says is there.
 7. **Audio** is synthesised: filtered noise for wind, a swish for the throw, a pulsing tone for the stall warning, bursts for crash and thunder. No audio files.
@@ -147,7 +147,7 @@ There are no secrets.
 
 - Press the backtick key in game for a panel with every flight variable, draw calls, a wind override and a difficulty override.
 - In dev mode the URL accepts `?phase=playing`, `?phase=launching&launchHold=0.6`, `?hold=up,right`, `?skip=5` and `?progress=0.8` to jump straight into a situation. They are stripped from production builds.
-- To re-render the social card, open `/?og=1&phase=playing&skip=44&hold=right` on the dev server in a 1200x630 window and screenshot it to `public/og.png`.
+- To re-render the social card, open `/?og=1&phase=playing&skip=45` on the dev server in a 1200x630 window and screenshot it to `public/og.png`.
 
 ---
 
@@ -156,7 +156,7 @@ There are no secrets.
 ```text
 paper-plane/
 ├── docs/                 # Architecture, flight model, assets, milestones, testing
-├── public/               # Favicon
+├── public/               # Favicon, home-screen icons, manifest, social card
 ├── scripts/tune.ts       # Headless scenario harness (npm run tune)
 └── src/
     ├── sim/              # Pure TypeScript simulation: flight, wind, difficulty, scoring, loop
@@ -180,10 +180,10 @@ The build is static files. Any static host works.
   3. Open the `*.vercel.app` link on your phone. Add it to the home screen for a full-screen, landscape experience; the manifest and icons are included.
   Alternatively, from this folder: `npx vercel` to preview, `npx vercel --prod` to publish.
 - **Netlify**: import the repository, build command `npm run build`, output directory `dist`. Set `SITE_URL` to the site's URL so social cards link correctly.
-- **GitHub Pages**: push to `main` with the included workflow in [.github/workflows/deploy.yml](.github/workflows/deploy.yml). It builds with `BASE_PATH=/<repo-name>/` and publishes `dist`. Enable Pages with source "GitHub Actions" in the repository settings first.
+- **GitHub Pages**: the workflow in [.github/workflows/deploy.yml](.github/workflows/deploy.yml) runs on every push to `main`, builds with `BASE_PATH=/<repo-name>/` and publishes `dist`. It needs one setting first: in the repository go to **Settings, Pages, Build and deployment** and set **Source** to **GitHub Actions**. Until that is done the deploy step fails. The site then lives at `https://<owner>.github.io/<repo-name>/`.
 - **Anything else**: run `npm run build` and upload `dist/`. If the site is not at the domain root, set `BASE_PATH` before building.
 
-This folder is not a git repository yet. Run `git init`, commit, and add a remote before using the workflow.
+Dependabot keeps the dependencies current; its pull requests are safe to merge once the `check` workflow passes on them.
 
 ---
 
@@ -203,4 +203,4 @@ This folder is not a git repository yet. Run `git init`, commit, and add a remot
 
 - No backend, no accounts, no network requests after the page loads.
 - The only data stored is your best flight and settings, in `localStorage` under `paperplane.best.v1` and `paperplane.settings.v1`. Both are validated when read.
-- No secrets exist in the project. `.env.example` lists the single optional build variable.
+- No secrets exist in the project. `.env.example` lists the two optional build variables.
