@@ -1,0 +1,53 @@
+2. Requirements: What you need to provide
+You don't necessarily need to source everything before starting. Claude can create many of the assets procedurally, but some external resources can improve the result.
+Requirement	Priority	Purpose
+Paper plane 3D model (.glb/.gltf)	Recommended	Main player model
+Cloud 3D models	Optional	Environmental depth
+Sky/HDRI environment	Optional	Lighting and sky atmosphere
+Wind particle textures	Optional	Visual wind effects
+Ambient wind audio	Recommended	Flight atmosphere
+Turbulence audio	Optional	Strong wind feedback
+Stall/crash sound effects	Optional	Gameplay feedback
+Paper texture	Optional	Plane material
+Game icon/logo	Later	Browser identity
+Font	Recommended	Game interface
+
+Where to get assets
+- Sketchfab — Search for paper airplane models. Check download and commercial-use licences.
+- Poly Haven — Free HDRIs and environmental textures.
+- ambientCG — Free textures and materials.
+- Kenney — Game assets and sound resources.
+- Freesound — Wind and environmental audio. Check individual licences.
+My recommendation: Don't spend money on assets initially. Let Claude create a procedural paper plane using geometry, build clouds procedurally and use generated wind effects. You can replace these with better assets once the gameplay is enjoyable.
+3. Three decisions to make before development
+There are three things I'd settle before giving Claude the first prompt.
+
+A. Plane appearance
+
+I recommend a recognisable white paper airplane, with visible folds and slightly imperfect paper edges. Avoid making it look like a miniature fighter jet.
+
+B. Flight camera
+
+The plane should occupy approximately the middle of the screen, with enough space around it to see the horizon, clouds and changes in altitude. The camera should follow smoothly without making the plane disappear from view.
+
+C. Controls
+
+Start with keyboard controls:
+- W / Up Arrow: Climb.
+- S / Down Arrow: Descend.
+- Space: Pause.
+Add touch controls for mobile later.
+4. One important instruction for Claude
+At the beginning of every milestone, tell Claude:
+
+"Inspect the existing codebase and understand the current implementation before making changes. Preserve working features. Do not unnecessarily rewrite existing systems. Implement this milestone incrementally, run the application, test the changes and fix errors before declaring the milestone complete. Update the project documentation where necessary."
+
+This will help prevent Claude from rebuilding the game from scratch at every stage.
+5. My additional recommendation
+One thing I would not compromise on is the flight physics.
+
+The game can have beautiful graphics, but if pressing up makes the plane shoot upwards immediately, the experience will feel cheap.
+
+The most enjoyable part should be learning how to control the paper plane: anticipating wind, managing momentum, recovering from a stall and finding the right rhythm.
+
+Also, don't commission a custom 3D model yet. Start with a procedural model and see whether the gameplay works. Upgrade the art after the first playable prototype.
