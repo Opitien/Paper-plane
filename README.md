@@ -1,10 +1,14 @@
 # Paper Plane
 
+![Paper Plane: fold, throw, ride the wind](public/thumbnail.png)
+
 **Fold, throw, ride the wind.** A browser game about keeping a paper plane in the air for as long as you can.
+
+**Play it now at [mypaperplane.vercel.app](https://mypaperplane.vercel.app).**
 
 You fly a paper dart through an open sky from a camera just behind it. You only control pitch and bank, but the plane obeys a small flight model: pull up too hard and it stalls, dive too long and it overspeeds, bank and it turns but sinks. The wind drifts, gusts and eventually storms. Your score is the distance you cover before you hit the ground.
 
-The source is at [github.com/Opitien/Paper-plane](https://github.com/Opitien/Paper-plane). It publishes to [opitien.github.io/Paper-plane](https://opitien.github.io/Paper-plane/) through GitHub Actions and deploys to Vercel with one click; see [Deployment](#deployment). Or run it locally with the steps under [Getting started](#getting-started).
+The source is at [github.com/Opitien/Paper-plane](https://github.com/Opitien/Paper-plane). The live site is [mypaperplane.vercel.app](https://mypaperplane.vercel.app) on Vercel; a mirror publishes to [opitien.github.io/Paper-plane](https://opitien.github.io/Paper-plane/) through GitHub Actions. See [Deployment](#deployment). Or run it locally with the steps under [Getting started](#getting-started).
 
 > **Good to know.** Everything runs in your browser. Your best flight and settings are saved in your browser's local storage only, so they do not follow you between devices. Sound starts after your first click or key press, because browsers require that.
 
@@ -126,7 +130,7 @@ Open the address Vite prints (usually http://localhost:5173).
 | Variable | Needed for | Notes |
 |---|---|---|
 | `BASE_PATH` | Hosting under a sub-path | Build time only. Leave empty for the site root. GitHub Pages project sites need `/<repo-name>/`. |
-| `SITE_URL` | Absolute links in the social-card tags | Build time only, no trailing slash. Filled automatically on Vercel from the deployment URL; set it for other hosts. |
+| `SITE_URL` | Absolute links in the social-card and canonical tags | Build time only, no trailing slash. Filled automatically on Vercel from the deployment URL; otherwise defaults to `https://mypaperplane.vercel.app`. Set it when hosting elsewhere. |
 
 There are no secrets.
 
@@ -147,7 +151,7 @@ There are no secrets.
 
 - Press the backtick key in game for a panel with every flight variable, draw calls, a wind override and a difficulty override.
 - In dev mode the URL accepts `?phase=playing`, `?phase=launching&launchHold=0.6`, `?hold=up,right`, `?skip=5` and `?progress=0.8` to jump straight into a situation. They are stripped from production builds.
-- To re-render the social card, open `/?og=1&phase=playing&skip=45` on the dev server in a 1200x630 window and screenshot it to `public/og.png`.
+- The social card (`public/og.png`, 1200x630) and the README thumbnail (`public/thumbnail.png`, 1280x720) are brand illustrations in the theme blue with the favicon's paper dart. For a screenshot-style card instead, open `/?og=1&phase=playing&skip=45` on the dev server in a 1200x630 window and capture it to `public/og.png`.
 
 ---
 
@@ -177,7 +181,7 @@ The build is static files. Any static host works.
 - **Vercel** (recommended, and the quickest way to test on a phone):
   1. Push the repository to GitHub, GitLab or Bitbucket.
   2. On [vercel.com](https://vercel.com) choose **Add New Project**, import the repository and press **Deploy**. The included [vercel.json](vercel.json) sets the Vite framework, `npm run build`, the `dist` output and long cache headers for hashed assets. No environment variables are needed; the social-card links pick up the deployment URL on their own.
-  3. Open the `*.vercel.app` link on your phone. Add it to the home screen for a full-screen, landscape experience; the manifest and icons are included.
+  3. Open the `*.vercel.app` link on your phone (the production site is [mypaperplane.vercel.app](https://mypaperplane.vercel.app)). Add it to the home screen for a full-screen, landscape experience; the manifest and icons are included.
   Alternatively, from this folder: `npx vercel` to preview, `npx vercel --prod` to publish.
 - **Netlify**: import the repository, build command `npm run build`, output directory `dist`. Set `SITE_URL` to the site's URL so social cards link correctly.
 - **GitHub Pages**: the workflow in [.github/workflows/deploy.yml](.github/workflows/deploy.yml) runs on every push to `main`, builds with `BASE_PATH=/<repo-name>/` and publishes `dist`. It needs one setting first: in the repository go to **Settings, Pages, Build and deployment** and set **Source** to **GitHub Actions**. Until that is done the deploy step fails. The site then lives at `https://<owner>.github.io/<repo-name>/`.

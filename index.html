@@ -15,7 +15,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Paper Plane" />
 
-    <!-- Social cards. %SITE_URL% is filled at build time from SITE_URL or Vercel's URL (see vite.config.ts). -->
+    <!-- Social cards. %SITE_URL% is filled at build time from SITE_URL, Vercel's URL, or the live site (see vite.config.ts). -->
+    <link rel="canonical" href="%SITE_URL%/" />
+    <meta property="og:site_name" content="Paper Plane" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Paper Plane" />
     <meta property="og:description" content="Fold, throw, ride the wind. A browser flight game about keeping a paper plane in the air for as long as you can." />

@@ -2,16 +2,19 @@
 import { defineConfig, loadEnv, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 
+/** Where the game lives. Social-card and canonical links point here unless overridden. */
+const LIVE_URL = 'https://mypaperplane.vercel.app';
+
 /**
  * Absolute site origin for social-card URLs. Explicit SITE_URL wins; on
  * Vercel the production domain or the deployment URL is used; otherwise the
- * tags fall back to root-relative paths, which most crawlers still resolve.
+ * tags point at the live site.
  */
 function siteUrl(env: Record<string, string>): string {
   if (env.SITE_URL) return env.SITE_URL.replace(/\/$/, '');
   if (env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${env.VERCEL_PROJECT_PRODUCTION_URL}`;
   if (env.VERCEL_URL) return `https://${env.VERCEL_URL}`;
-  return '';
+  return LIVE_URL;
 }
 
 function siteUrlPlugin(url: string): Plugin {
